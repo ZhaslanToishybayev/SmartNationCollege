@@ -1,0 +1,1 @@
+import '@/ai/flows/college-query-chatbot.ts';
