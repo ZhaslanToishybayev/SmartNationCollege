@@ -1,0 +1,221 @@
+/* Timeline Section Styles */
+.timeline-section {
+  position: relative;
+  overflow: hidden;
+  padding-top: 2rem;
+  background: linear-gradient(to right, rgba(173, 216, 230, 0.3), rgba(255, 255, 255, 0.8));
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Timeline year styles */
+.timeline-year {
+  position: relative;
+  margin-bottom: 8rem; /* Spacing between years */
+  min-height: 250px; /* Minimum height for each year section */
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-year:last-child {
+  margin-bottom: 4rem;
+}
+
+/* Year heading */
+.timeline-year-heading {
+  position: relative;
+  z-index: 10; /* Ensure heading is above connectors */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.timeline-year-heading h3 {
+  font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+  font-size: 128px;
+  font-weight: 400;
+  color: #294A8B;
+  line-height: 1.15;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+/* Timeline content */
+.timeline-content-left {
+  max-width: 48rem;
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+  position: relative;
+  z-index: 10;
+  padding-left: 2rem;
+  border-left: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.timeline-content-right {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+  position: relative;
+  z-index: 10;
+  padding-right: 2rem;
+  border-right: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+/* Timeline connector lines */
+.timeline-section {
+  position: relative;
+}
+
+/* Connector line between years */
+.timeline-connector {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.timeline-connector svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.timeline-connector path {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: dash 3s ease-in-out forwards;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.2));
+}
+
+.timeline-connector div:nth-child(1) path {
+  animation-delay: 0.2s;
+}
+
+.timeline-connector div:nth-child(2) path {
+  animation-delay: 0.8s;
+}
+
+.timeline-connector div:nth-child(3) path {
+  animation-delay: 1.4s;
+}
+
+.timeline-connector div:nth-child(4) path {
+  animation-delay: 2s;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Add animation to timeline elements */
+.timeline-year-heading h3 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: calc(0.2s * var(--index, 1));
+}
+
+.timeline-content-left p,
+.timeline-content-right p {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: calc(0.5s * var(--index, 1));
+}
+
+.timeline-year:nth-child(1) .timeline-year-heading h3,
+.timeline-year:nth-child(1) .timeline-content-left p,
+.timeline-year:nth-child(1) .timeline-content-right p {
+  --index: 1;
+}
+
+.timeline-year:nth-child(2) .timeline-year-heading h3,
+.timeline-year:nth-child(2) .timeline-content-left p,
+.timeline-year:nth-child(2) .timeline-content-right p {
+  --index: 2;
+}
+
+.timeline-year:nth-child(3) .timeline-year-heading h3,
+.timeline-year:nth-child(3) .timeline-content-left p,
+.timeline-year:nth-child(3) .timeline-content-right p {
+  --index: 3;
+}
+
+.timeline-year:nth-child(4) .timeline-year-heading h3,
+.timeline-year:nth-child(4) .timeline-content-left p,
+.timeline-year:nth-child(4) .timeline-content-right p {
+  --index: 4;
+}
+
+.timeline-year:nth-child(5) .timeline-year-heading h3,
+.timeline-year:nth-child(5) .timeline-content-left p,
+.timeline-year:nth-child(5) .timeline-content-right p {
+  --index: 5;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dot pattern for the woman image section */
+.dot-pattern {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #CACACA;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .timeline-content-left,
+  .timeline-content-right {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+  }
+
+  .timeline-year-heading h3 {
+    font-size: 80px;
+  }
+
+  .dot-pattern {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .timeline-year-heading h3 {
+    font-size: 60px;
+  }
+
+  .dot-pattern {
+    gap: 10px;
+  }
+}

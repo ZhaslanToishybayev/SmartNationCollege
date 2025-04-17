@@ -1,0 +1,123 @@
+/* Document Page Styles */
+.document-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.document-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Badge Styles */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge-pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.status-badge-approved {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.status-badge-rejected {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+/* Document Icon Styles */
+.document-icon-container {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+/* Animation for document cards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Animation for table rows */
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-row {
+  animation: fadeInRow 0.3s ease-out forwards;
+}
+
+/* Animation for page title */
+@keyframes fadeInTitle {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-title {
+  animation: fadeInTitle 0.8s ease-out forwards;
+}
+
+/* Custom scrollbar for tables */
+.documents-table {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.documents-table::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.documents-table::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.documents-table::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .document-controls {
+    flex-direction: column;
+  }
+
+  .document-controls > * {
+    width: 100%;
+  }
+}
