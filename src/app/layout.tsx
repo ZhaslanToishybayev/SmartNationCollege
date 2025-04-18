@@ -1,7 +1,11 @@
 import type {Metadata} from 'next';
-import { Manrope } from 'next/font/google'; // Import Manrope
+import { Manrope } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster for feedback
+import { Toaster } from "@/components/ui/toaster";
+
+// Providers
+import { ThemeProvider } from '@/store/context/ThemeContext';
+import { AuthProvider } from '@/store/context/AuthContext';
 
 // Configure Manrope font
 const manrope = Manrope({
@@ -14,7 +18,6 @@ const manrope = Manrope({
 // We'll use it as the primary font to match Figma design
 
 export const metadata: Metadata = {
-  // Update title/description if desired
   title: 'SmartNation College Portal',
   description: 'Единый портал государственных услуг',
 };
@@ -25,12 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      {/* Apply Manrope font variable to body */}
-      {/* Keep antialiased for better font rendering */}
-      <body className={`${manrope.variable} font-arial antialiased`}> {/* Use font-arial to match Figma design */}
-        {children}
-        <Toaster /> {/* Add Toaster component here */}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${manrope.variable} font-arial antialiased`}>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

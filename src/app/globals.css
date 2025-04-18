@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base styles */
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -9,6 +10,35 @@ body {
 @layer base {
   .font-arial {
     font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* Modern CSS Reset */
+  * {
+    @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Modern Link Styles */
+  a {
+    @apply transition-all duration-300;
+  }
+
+  /* Button Hover Effects */
+  button {
+    @apply transition-all duration-300;
   }
 }
 
@@ -84,30 +114,65 @@ body {
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+@layer components {
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/30 shadow-lg;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#3D6FD1] to-[#294A8B];
   }
 }
 
-/* Timeline styles */
+/* Modern Card Styles */
+.modern-card {
+  @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modern-card:hover {
+  @apply shadow-xl transform -translate-y-1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced Button Styles */
+.primary-button {
+  @apply bg-gradient-to-r from-[#3D6FD1] to-[#294A8B] text-white rounded-lg px-6 py-3 
+         transition-all duration-300 hover:shadow-lg hover:scale-105 
+         focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 focus:outline-none;
+}
+
+/* Glassmorphism Effects */
+.glass-card {
+  @apply bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 shadow-xl;
+}
+
+/* Enhanced Input Styles */
+.modern-input {
+  @apply w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#3D6FD1] 
+         focus:ring-2 focus:ring-[#3D6FD1] focus:ring-opacity-50 transition-all duration-300;
+}
+
+/* Enhanced Timeline Styles */
 .timeline-section {
-  position: relative;
+  @apply relative overflow-hidden;
 }
 
 .timeline-year {
-  margin-bottom: 80px;
-  position: relative;
+  @apply mb-20 relative;
 }
 
 .timeline-year-heading h3 {
-  font-size: 80px;
-  font-weight: bold;
-  color: #3D6FD1;
-  margin-bottom: 20px;
+  @apply text-6xl font-bold text-[#3D6FD1] mb-5 transition-all duration-300;
 }
 
 .timeline-content-left {
@@ -131,4 +196,35 @@ body {
   height: 100%;
   z-index: -1;
   pointer-events: none;
+}
+
+/* Enhanced Animation Keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Animation Classes */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 768px) {
+  .timeline-year-heading h3 {
+    @apply text-4xl;
+  }
+  
+  .modern-card {
+    @apply p-4;
+  }
 }

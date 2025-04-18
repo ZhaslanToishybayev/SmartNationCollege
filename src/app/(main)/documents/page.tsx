@@ -1,16 +1,17 @@
 "use client";
 
+import React, { useState } from 'react';
 import Image from 'next/image';
-import './documents.css';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Search, Filter, ArrowUpDown, Plus, FileText, Clock, Star, MoreHorizontal, Download } from 'lucide-react';
+import { useAuth } from '@/store/context/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
-// Типы для документов
+// Types for documents
 interface Document {
   id: string;
   title: string;
@@ -20,7 +21,7 @@ interface Document {
   starred: boolean;
 }
 
-// Моковые данные для документов
+// Mock data for documents
 const mockDocuments: Document[] = [
   { id: '1', title: 'Заявление на академический отпуск', type: 'Заявление', date: '12.04.2024', status: 'pending', starred: false },
   { id: '2', title: 'Справка о обучении', type: 'Справка', date: '10.04.2024', status: 'approved', starred: true },
@@ -34,14 +35,17 @@ export default function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<string | null>(null);
+  const { user } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
 
-  // Функция для поиска документов
+  // Function for searching documents
   const filteredDocuments = documents.filter(doc =>
     doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     doc.type.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Функция для сортировки документов
+  // Function for sorting documents
   const sortedDocuments = [...filteredDocuments].sort((a, b) => {
     if (!sortBy) return 0;
 
@@ -60,7 +64,7 @@ export default function DocumentsPage() {
     }
   });
 
-  // Функция для отметки документа звездочкой
+  // Function for starring a document
   const toggleStar = (id: string) => {
     setDocuments(docs =>
       docs.map(doc =>
@@ -69,7 +73,7 @@ export default function DocumentsPage() {
     );
   };
 
-  // Получение статуса документа для отображения
+  // Get status badge for display
   const getStatusBadge = (status: string) => {
     switch(status) {
       case 'pending':
@@ -84,41 +88,7 @@ export default function DocumentsPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#E6E6E6] font-sans relative">
-      {/* Background Elements */}
-      <div className="absolute w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute w-[800px] h-[800px] rounded-full bg-[#3D6FD1] blur-[400px] opacity-50 -top-[400px] -left-[400px] animate-pulse"></div>
-        <div className="absolute w-[800px] h-[800px] rounded-full bg-[#294A8B] blur-[400px] opacity-50 top-[200px] -right-[400px] animate-pulse"></div>
-        <div className="absolute w-[800px] h-[800px] rounded-full bg-[#3D6FD1] blur-[400px] opacity-50 bottom-[0px] left-[30%] animate-pulse"></div>
-        <div className="absolute w-[400px] h-[400px] rounded-full bg-[#3D6FD1] blur-[200px] opacity-30 top-[600px] right-[10%] animate-pulse"></div>
-        <div className="absolute w-[300px] h-[300px] rounded-full bg-[#294A8B] blur-[150px] opacity-30 top-[1200px] left-[5%] animate-pulse"></div>
-      </div>
-
-      {/* Header */}
-      <header className="relative z-10 w-full bg-[#E6E6E6] shadow-[0px_4px_12px_0px_rgba(0,0,0,0.25)]">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="font-arial text-[16.24px] font-normal leading-[1.21em] text-center">
-            <span className="block">SmartNation</span>
-            <span className="block">COLLEGE</span>
-          </div>
-          <nav className="hidden items-center justify-center gap-8 md:flex">
-            <a href="/about" className="font-arial text-[16px] font-normal leading-[4em] hover:text-[#3D6FD1] transition-colors">О нас</a>
-            <a href="/documents" className="font-arial text-[16px] font-normal leading-[4em] text-[#3D6FD1] transition-colors">Документы</a>
-            <a href="#" className="font-arial text-[16px] font-normal leading-[4em] hover:text-[#3D6FD1] transition-colors">Контакты</a>
-            <a href="#" className="font-arial text-[16px] font-normal leading-[4em] hover:text-[#3D6FD1] transition-colors">Инструкция</a>
-          </nav>
-          <div className="flex items-center gap-4">
-            <div className="hidden items-center gap-1 font-arial text-[16px] font-normal leading-[4em] md:flex">
-              ru ^
-            </div>
-            <div className="font-arial text-[16px] font-normal leading-[4em]">
-              <a href="#" className="hover:text-[#3D6FD1] transition-colors">Войти</a> / <a href="#" className="hover:text-[#3D6FD1] transition-colors"> Регистрация</a>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
+    <>
       <main className="flex-grow relative z-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="font-arial text-[64px] font-normal text-[#294A8B] mb-8 animate-title">Документы</h1>
@@ -175,7 +145,21 @@ export default function DocumentsPage() {
             </div>
 
             {/* Create Document Button */}
-            <Button className="bg-[#3D6FD1] hover:bg-[#294A8B] text-white h-12 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105">
+            <Button
+              className="bg-[#3D6FD1] hover:bg-[#294A8B] text-white h-12 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105"
+              onClick={() => {
+                if (user) {
+                  router.push('/documents/create');
+                } else {
+                  toast({
+                    title: "Требуется авторизация",
+                    description: "Для создания документа необходимо войти в систему",
+                    variant: "destructive",
+                  });
+                  router.push('/login');
+                }
+              }}
+            >
               <Plus size={20} />
               <span>Создать Документ</span>
             </Button>
@@ -300,101 +284,6 @@ export default function DocumentsPage() {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="py-12 bg-[#E6E6E6] text-black px-4 sm:px-6 lg:px-8 relative shadow-[4px_0px_12px_0px_rgba(0,0,0,0.25)]">
-        <div className="mx-auto max-w-7xl">
-          {/* Newsletter Subscription */}
-          <div className="mb-16">
-            <h2 className="font-arial text-[35px] font-normal leading-[1.15em] mb-8">Подпишитесь на нашу рассылку, чтобы быть в курсе наших новостей!</h2>
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="relative flex-grow">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                  <Image
-                    src="/figma-assets/user-solid.svg"
-                    alt="User Icon"
-                    width={20}
-                    height={20}
-                  />
-                </div>
-                <input
-                  type="email"
-                  placeholder="Введите свою почту"
-                  className="w-full px-12 py-3 border border-[rgba(0,0,0,0.3)] rounded-[100px] focus:outline-none focus:ring-2 focus:ring-[#3D6FD1] focus:border-transparent font-inter text-[20px] leading-[1.21em] text-[rgba(0,0,0,0.3)]"
-                />
-              </div>
-              <button className="bg-[#3D6FD1] text-white px-8 py-3 rounded-[100px] hover:bg-[#294A8B] transition-colors font-inter text-[20px] leading-[1.21em]">
-                Подписаться
-              </button>
-            </div>
-          </div>
-
-          {/* Divider Line */}
-          <div className="w-full h-[1px] bg-[rgba(0,0,0,0.3)] mb-12"></div>
-
-          {/* Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
-            {/* Left Info */}
-            <div className="md:col-span-3">
-              <div className="font-arial text-[16.24px] font-normal leading-[1.21em] text-center mb-4">
-                <span className="block">SmartNation</span>
-                <span className="block">COLLEGE</span>
-              </div>
-              <p className="font-arial text-[20px] font-normal leading-[1.15em] text-black mb-6">
-                мы растем ваших гениальных детей для нашего будущего
-              </p>
-            </div>
-
-            {/* Right Info */}
-            <div className="md:col-span-9">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Platform */}
-                <div>
-                  <h3 className="font-arial text-[18px] font-normal leading-[1.15em] mb-4">Platform</h3>
-                  <ul className="space-y-2">
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Plans & Pricing</a></li>
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Personal AI Manager</a></li>
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">AI Business Writer</a></li>
-                  </ul>
-                </div>
-
-                {/* Company */}
-                <div>
-                  <h3 className="font-arial text-[18px] font-normal leading-[1.15em] mb-4">Company</h3>
-                  <ul className="space-y-2">
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Blog</a></li>
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Careers</a></li>
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">News</a></li>
-                  </ul>
-                </div>
-
-                {/* Resources */}
-                <div>
-                  <h3 className="font-arial text-[18px] font-normal leading-[1.15em] mb-4">Recources</h3>
-                  <ul className="space-y-2">
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Documentation</a></li>
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Papers</a></li>
-                    <li><a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Press Conderences</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Divider Line */}
-          <div className="w-full h-[1px] bg-[rgba(0,0,0,0.3)] mb-8"></div>
-
-          {/* Footer Bottom */}
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="font-arial text-[20px] font-normal leading-[1.15em] mb-4 md:mb-0">&copy; 2025 College - SmartNation</p>
-            <div className="flex flex-wrap gap-6">
-              <a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Cookies</a>
-              <a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Privacy Police</a>
-              <a href="#" className="font-arial text-[20px] font-normal leading-[1.15em] hover:text-[#3D6FD1] transition-colors">Tearms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </>
   );
 }

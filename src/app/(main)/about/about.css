@@ -1,0 +1,223 @@
+/* Timeline Section Styles */
+.timeline-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 0;
+  background: linear-gradient(to right, rgba(173, 216, 230, 0.3), rgba(255, 255, 255, 0.8));
+  margin: 2rem 0;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Timeline year styles */
+.timeline-year {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: var(--delay);
+}
+
+/* Year heading */
+.timeline-year-heading {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.timeline-year-heading h3 {
+  font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+  font-size: 128px;
+  font-weight: 400;
+  background: linear-gradient(135deg, #3D6FD1, #294A8B);
+  -webkit-background-clip: text;
+  color: transparent;
+  line-height: 1.15;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: scaleIn 0.6s ease-out forwards;
+  animation-delay: calc(var(--delay) + 0.2s);
+}
+
+/* Timeline content */
+.timeline-content-left,
+.timeline-content-right {
+  max-width: 48rem;
+  position: relative;
+  z-index: 10;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  width: 100%;
+}
+
+.timeline-content-left {
+  margin-right: auto;
+  transform: translateX(-50px);
+  animation: slideInLeft 0.8s ease-out forwards;
+  animation-delay: calc(var(--delay) + 0.4s);
+  text-align: left;
+}
+
+.timeline-content-right {
+  margin-left: auto;
+  transform: translateX(50px);
+  animation: slideInRight 0.8s ease-out forwards;
+  animation-delay: calc(var(--delay) + 0.4s);
+  text-align: right;
+}
+
+/* Timeline connector and curves */
+.timeline-connector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.timeline-curve {
+  position: absolute;
+  width: 100%;
+}
+
+.timeline-path {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Enhanced visual effects */
+.timeline-year::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #3D6FD1, #294A8B);
+  border-radius: 50%;
+  top: 128px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  box-shadow: 0 0 0 5px rgba(61, 111, 209, 0.2);
+  opacity: 0;
+  animation: pulseAndFadeIn 2s ease-out forwards;
+  animation-delay: calc(var(--delay) + 0.6s);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulseAndFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+    box-shadow: 0 0 0 0 rgba(61, 111, 209, 0.4);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 0 10px rgba(61, 111, 209, 0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .timeline-year-heading h3 {
+    font-size: 64px;
+  }
+
+  .timeline-content-left,
+  .timeline-content-right {
+    max-width: 100%;
+    margin: 0;
+    padding: 1.5rem;
+    text-align: left;
+  }
+
+  .timeline-year {
+    margin-bottom: 4rem !important;
+  }
+
+  .timeline-curve {
+    display: none;
+  }
+
+  .timeline-year::before {
+    top: 80px;
+  }
+}
+
+/* Intersection Observer animations */
+.timeline-year.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-content-left.visible,
+.timeline-content-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Dot pattern for the about page */
+.dot-pattern {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 20px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
